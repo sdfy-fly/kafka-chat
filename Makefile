@@ -24,3 +24,8 @@ app-down:
 .PHONY: app-logs
 app-logs:
 	${LOGS} ${APP_CONTAINER} -f
+
+
+.PHONY: tests
+tests:
+	${EXEC} ${APP_CONTAINER} pytest
