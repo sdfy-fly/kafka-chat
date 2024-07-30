@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "chat"
+version = "0.1.0"
+description = ""
+authors = ["sdfy-fly <rozhov25@bk.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+setuptools = "^72.1.0"
+fastapi = "^0.111.1"
+uvicorn = "^0.30.3"
+motor = "^3.5.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
