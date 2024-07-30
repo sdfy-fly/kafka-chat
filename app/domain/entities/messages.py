@@ -1,13 +1,9 @@
-from dataclasses import dataclass, field
-from uuid import uuid4
+from dataclasses import dataclass
 
+from app.domain.entities.base import BaseEntity
 from app.domain.values.messages import Text
 
 
-@dataclass
-class Message:
+@dataclass(eq=False)
+class Message(BaseEntity):  # noqa
     text: Text
-    oid: str = field(
-        default_factory=lambda: str(uuid4()),
-        kw_only=True
-    )

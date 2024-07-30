@@ -1,19 +1,19 @@
 from dataclasses import dataclass
 
-from app.domain.exceptions.messages import TextTooLongException, EmptyTextException
+from app.domain.exceptions.chat import TitleTooLongException, EmptyTitleException
 from app.domain.values.base import BaseValueObject
 
 
 @dataclass(frozen=True)
-class Text(BaseValueObject[str]):
+class Title(BaseValueObject[str]):
     value: str
 
     def validate(self):
         if not self.value:
-            raise EmptyTextException()
+            raise EmptyTitleException()
 
-        if len(self.value) > 255:
-            raise TextTooLongException(self.value)
+        if len(self.value) > 100:
+            raise TitleTooLongException(self.value)
 
     def as_genetic_type(self):
         return str(self.value)
