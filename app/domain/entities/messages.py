@@ -8,5 +8,6 @@ from app.domain.values.messages import Text
 class Message:
     text: Text
     oid: str = field(
-        default_factory=lambda: str(uuid4()), kw_only=True
+        default_factory=lambda: str(uuid4()),
+        kw_only=True
     )
