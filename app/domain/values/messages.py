@@ -15,5 +15,5 @@ class Text(BaseValueObject[str]):
         if len(self.value) > 255:
             raise TextTooLongException(self.value)
 
-    def as_genetic_type(self):
+    def as_genetic_type(self) -> str:
         return str(self.value)

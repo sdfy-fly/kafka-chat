@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 
 from app.domain.entities.base import BaseEntity
 from app.domain.entities.messages import Message
+from app.domain.events.messages import NewMessageReceivedEvent
 from app.domain.values.chat import Title
 
 
@@ -15,3 +16,8 @@ class Chat(BaseEntity):  # noqa
 
     def add_message(self, message: Message):
         self.messages.add(message)
+        self.register_event(NewMessageReceivedEvent(
+            message_text=message.text.as_genetic_type(),
+            message_oid=message.oid,
+            chat_oid=self.oid,
+        ))

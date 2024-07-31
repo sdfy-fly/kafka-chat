@@ -15,5 +15,5 @@ class Title(BaseValueObject[str]):
         if len(self.value) > 100:
             raise TitleTooLongException(self.value)
 
-    def as_genetic_type(self):
+    def as_genetic_type(self) -> str:
         return str(self.value)
