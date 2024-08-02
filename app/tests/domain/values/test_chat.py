@@ -4,7 +4,7 @@ import pytest
 
 from app.domain.entities.chat import Chat
 from app.domain.entities.messages import Message
-from app.domain.events.messages import NewMessageReceivedEvent
+from app.domain.events.chat import NewMessageReceivedEvent
 from app.domain.exceptions.chat import TitleTooLongException
 from app.domain.values.chat import Title
 from app.domain.values.messages import Text
