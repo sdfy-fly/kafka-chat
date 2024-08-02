@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from app.domain.exceptions.base import ApplicationException
 
 
-@dataclass
+@dataclass(frozen=True, eq=False)
 class TextTooLongException(ApplicationException):
     text: str
 
@@ -12,7 +12,7 @@ class TextTooLongException(ApplicationException):
         return f'Message text too long "{self.text[:100]}..."'
 
 
-@dataclass
+@dataclass(frozen=True, eq=False)
 class EmptyTextException(ApplicationException):
     @property
     def message(self):

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from app.domain.exceptions.base import ApplicationException
 
 
-@dataclass
+@dataclass(frozen=True, eq=False)
 class TitleTooLongException(ApplicationException):
     title: str
 
@@ -12,7 +12,7 @@ class TitleTooLongException(ApplicationException):
         return f'Chat title too long "{self.title[:100]}"...'
 
 
-@dataclass
+@dataclass(frozen=True, eq=False)
 class EmptyTitleException(ApplicationException):
     @property
     def message(self):
