@@ -1,6 +1,6 @@
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Iterable
+from typing import Iterable, Type
 
 from app.domain.events.base import BaseEvent
 from app.logic.commands.base import CommandHandler, CT, CR, BaseCommand
@@ -22,17 +22,17 @@ class Mediator:
 
     def register_event(
             self,
-            event: ET,
+            event: Type[ET],
             event_handlers: Iterable[EventHandler[ET, ER]]
     ):
-        self.events_map[event.__class__].extend(event_handlers)
+        self.events_map[event].extend(event_handlers)
 
     def register_command(
             self,
-            command: CT,
+            command: Type[CT],
             command_handlers: Iterable[CommandHandler[CT, CR]]
     ):
-        self.commands_map[command.__class__].extend(command_handlers)
+        self.commands_map[command].extend(command_handlers)
 
     async def handle_event(self, event: BaseEvent) -> list[ER]:
         event_type = event.__class__
