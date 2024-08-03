@@ -19,7 +19,7 @@ async def test_create_chat_command_success(
 
     assert isinstance(chat, Chat)
     assert chat.title.as_genetic_type() == chat_title
-    assert chat_repository.is_chat_exists(chat_title)
+    assert await chat_repository.is_chat_exists(chat_title)
 
     events = chat.pull_events()
     event = events[0]
