@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, status, Depends
 from punq import Container
 
-from app.application.api.messages.schemas import CreateChatRequestSchema, CreateChatResponseSchema
+from app.application.api.chat.schemas import CreateChatRequestSchema, CreateChatResponseSchema
 from app.application.schemas import ErrorSchema
 from app.domain.entities.chat import Chat
 from app.domain.exceptions.base import ApplicationException
@@ -25,7 +25,7 @@ router = APIRouter()
         status.HTTP_400_BAD_REQUEST: {'model': ErrorSchema}
     }
 )
-async def create_chat_handler(
+async def create_chat_route(
         schema: CreateChatRequestSchema,
         container: Annotated[Container, Depends(init_container)]
 ):
