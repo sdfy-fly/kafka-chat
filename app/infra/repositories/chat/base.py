@@ -7,7 +7,11 @@ from app.domain.entities.chat import Chat
 @dataclass
 class BaseChatRepository(ABC):
     @abstractmethod
-    async def is_chat_exists(self, title: str) -> bool:
+    async def is_chat_exists_by_title(self, title: str) -> bool:
+        ...
+
+    @abstractmethod
+    async def get_chat_by_oid(self, oid: str) -> Chat | None:
         ...
 
     @abstractmethod

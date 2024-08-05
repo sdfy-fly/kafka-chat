@@ -6,7 +6,7 @@ from app.domain.events.chat import NewChatCreated
 from app.domain.values.chat import Title
 from app.infra.repositories.chat.base import BaseChatRepository
 from app.logic.commands.chat import CreateChatCommand
-from app.logic.exceptions.messages import ChatAlreadyExists
+from app.logic.exceptions.chat import ChatAlreadyExists
 from app.logic.mediator import Mediator
 
 
@@ -26,7 +26,7 @@ class TestChat:
 
         assert isinstance(chat, Chat)
         assert chat.title.as_genetic_type() == chat_title
-        assert await chat_repository.is_chat_exists(chat_title)
+        assert await chat_repository.is_chat_exists_by_title(chat_title)
 
         events = chat.pull_events()
         event = events[0]
