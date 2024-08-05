@@ -2,7 +2,8 @@ from functools import lru_cache
 
 from punq import Container, Scope
 
-from app.infra.repositories.chat import BaseChatRepository, MemoryChatRepository
+from app.infra.repositories.chat.base import BaseChatRepository
+from app.infra.repositories.chat.mongo import get_chat_mongodb_repository
 from app.logic.commands.chat import CreateChatCommand, CreateChatCommandHandler
 from app.logic.mediator import Mediator
 
@@ -14,7 +15,7 @@ def init_container() -> Container:
 
 def _init_container() -> Container:
     container = Container()
-    container.register(BaseChatRepository, MemoryChatRepository, scope=Scope.singleton)
+    container.register(BaseChatRepository, factory=get_chat_mongodb_repository, scope=Scope.singleton)
     container.register(CreateChatCommandHandler)
 
     def init_mediator():

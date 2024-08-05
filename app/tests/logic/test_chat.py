@@ -4,7 +4,7 @@ from faker import Faker
 from app.domain.entities.chat import Chat
 from app.domain.events.chat import NewChatCreated
 from app.domain.values.chat import Title
-from app.infra.repositories.chat import BaseChatRepository
+from app.infra.repositories.chat.base import BaseChatRepository
 from app.logic.commands.chat import CreateChatCommand
 from app.logic.exceptions.messages import ChatAlreadyExists
 from app.logic.mediator import Mediator
