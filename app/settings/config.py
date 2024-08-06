@@ -4,7 +4,8 @@ from pydantic_settings import BaseSettings
 
 class MongoChatSettings(BaseSettings):
     database: str = Field(alias='MONGO_CHAT_DATABASE', default='chat')
-    collection: str = Field(alias='MONGO_CHAT_COLLECTION', default='chat')
+    chat_collection: str = Field(alias='MONGO_CHAT_COLLECTION', default='chat')
+    message_collection: str = Field(alias='MONGO_MESSAGE_COLLECTION', default='message')
 
 
 class MongoSettings(BaseSettings):

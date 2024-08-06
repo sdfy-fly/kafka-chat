@@ -26,8 +26,8 @@ class CreateMessageBaseCommandHandler(BaseCommandHandler):
         if not chat:
             raise ChatNotFound(chat_oid)
 
-        message = Message(text=Text(command.text))
-        await self.message_repository.add_message(chat_oid, message)
+        message = Message(chat_oid=chat_oid, text=Text(command.text))
+        await self.message_repository.add_message(message)
         chat.add_message(message)
 
         return message

@@ -3,21 +3,25 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, status, Depends
 from punq import Container
 
+from app.application.api.chat.filters import GetMessagesFilter
 from app.application.api.chat.schemas import (
     CreateChatSchema,
     CreateChatResponseSchema,
     CreateMessageSchema,
     CreateMessageResponseSchema,
     ChatDetailSchema,
+    MessageSchema,
+    GetMessagesQueryResponse,
 )
-from app.application.schemas import ErrorSchema
+from app.application.api.schemas import ErrorSchema
 from app.domain.exceptions.base import ApplicationException
 from app.logic.commands.chat import CreateChatCommand
-from app.logic.commands.message import CreateMessageCommand
+from app.logic.commands.messages import CreateMessageCommand
 from app.logic.exceptions.chat import ChatNotFound
 from app.logic.init import init_container
 from app.logic.mediator import Mediator
 from app.logic.queries.chat import GetChatDetailQuery
+from app.logic.queries.messages import GetMessagesQuery
 
 router = APIRouter()
 
@@ -105,3 +109,41 @@ async def get_chat_route(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
 
     return ChatDetailSchema.from_entity(chat)
+
+
+@router.get(
+    path='/{chat_oid}/messages',
+    status_code=status.HTTP_200_OK,
+    description='Получить сообщения в чате',
+    summary='Получить сообщения в чате',
+    response_model=GetMessagesQueryResponse,
+    responses={
+        status.HTTP_200_OK: {'model': GetMessagesQueryResponse},
+        status.HTTP_404_NOT_FOUND: {'model': ErrorSchema},
+        status.HTTP_400_BAD_REQUEST: {'model': ErrorSchema},
+    }
+)
+async def get_chat_messages_route(
+        chat_oid: str,
+        container: Annotated[Container, Depends(init_container)],
+        filters: GetMessagesFilter = Depends(),
+):
+    mediator: Mediator = container.resolve(Mediator)
+    query = GetMessagesQuery(
+        chat_oid=chat_oid,
+        filters=filters.to_infra()
+    )
+
+    try:
+        messages, count = await mediator.handle_query(query)
+    except ChatNotFound as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
+    except ApplicationException as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
+
+    return GetMessagesQueryResponse(
+        items=[MessageSchema.from_entity(message) for message in messages],
+        count=count,
+        offset=filters.offset,
+        limit=filters.limit
+    )

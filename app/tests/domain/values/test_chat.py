@@ -25,22 +25,22 @@ class TestChat:
             Title('a' * 256)
 
     def test_add_message(self):
-        text = Text('hello world')
-        message = Message(text=text)
-
         title = Title('hello world')
         chat = Chat(title=title)
+
+        text = Text('hello world')
+        message = Message(text=text, chat_oid=chat.oid)
 
         chat.add_message(message)
 
         assert message in chat.messages
 
     def test_new_message_event(self):
-        text = Text('hello world')
-        message = Message(text=text)
-
         title = Title('hello world')
         chat = Chat(title=title)
+
+        text = Text('hello world')
+        message = Message(text=text, chat_oid=chat.oid)
 
         chat.add_message(message)
         events = chat.pull_events()
