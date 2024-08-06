@@ -4,7 +4,7 @@ from app.domain.entities.messages import Message
 from app.domain.values.messages import Text
 from app.infra.repositories.chat.base import BaseChatRepository
 from app.infra.repositories.message.base import BaseMessageRepository
-from app.logic.commands.base import BaseCommand, CommandHandler
+from app.logic.commands.base import BaseCommand, BaseCommandHandler
 from app.logic.exceptions.chat import ChatNotFound
 
 
@@ -15,7 +15,7 @@ class CreateMessageCommand(BaseCommand):
 
 
 @dataclass(frozen=True)
-class CreateMessageCommandHandler(CommandHandler):
+class CreateMessageBaseCommandHandler(BaseCommandHandler):
     message_repository: BaseMessageRepository
     chat_repository: BaseChatRepository
 

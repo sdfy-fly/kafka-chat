@@ -7,9 +7,10 @@ from app.infra.repositories.chat.base import BaseChatRepository
 from app.infra.repositories.chat.mongo import MongoChatRepository
 from app.infra.repositories.message.base import BaseMessageRepository
 from app.infra.repositories.message.mongo import MongoMessageRepository
-from app.logic.commands.chat import CreateChatCommand, CreateChatCommandHandler
-from app.logic.commands.message import CreateMessageCommandHandler, CreateMessageCommand
+from app.logic.commands.chat import CreateChatCommand, CreateChatBaseCommandHandler
+from app.logic.commands.message import CreateMessageBaseCommandHandler, CreateMessageCommand
 from app.logic.mediator import Mediator
+from app.logic.queries.chat import GetChatDetailQueryHandler, GetChatDetailQuery
 from app.settings.config import settings
 
 
@@ -41,8 +42,11 @@ def _init_container() -> Container:
     )
 
     # Command Handlers
-    container.register(CreateChatCommandHandler)
-    container.register(CreateMessageCommandHandler)
+    container.register(CreateChatBaseCommandHandler)
+    container.register(CreateMessageBaseCommandHandler)
+
+    # Query Handlers
+    container.register(GetChatDetailQueryHandler)
 
     # Mediator
     def init_mediator():
@@ -51,15 +55,20 @@ def _init_container() -> Container:
         mediator.register_command(
             command=CreateChatCommand,
             command_handlers=[
-                container.resolve(CreateChatCommandHandler)
+                container.resolve(CreateChatBaseCommandHandler)
             ]
         )
 
         mediator.register_command(
             command=CreateMessageCommand,
             command_handlers=[
-                container.resolve(CreateMessageCommandHandler)
+                container.resolve(CreateMessageBaseCommandHandler)
             ]
+        )
+
+        mediator.register_query(
+            query=GetChatDetailQuery,
+            query_handler=container.resolve(GetChatDetailQueryHandler)
         )
 
         return mediator

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from app.domain.entities.chat import Chat
 from app.domain.values.chat import Title
 from app.infra.repositories.chat.base import BaseChatRepository
-from app.logic.commands.base import BaseCommand, CommandHandler
+from app.logic.commands.base import BaseCommand, BaseCommandHandler
 from app.logic.exceptions.chat import ChatAlreadyExists
 
 
@@ -13,7 +13,7 @@ class CreateChatCommand(BaseCommand):
 
 
 @dataclass(frozen=True)
-class CreateChatCommandHandler(CommandHandler[CreateChatCommand, Chat]):
+class CreateChatBaseCommandHandler(BaseCommandHandler[CreateChatCommand, Chat]):
     repository: BaseChatRepository
 
     async def handle(self, command: CreateChatCommand) -> Chat:

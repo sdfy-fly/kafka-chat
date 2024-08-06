@@ -4,7 +4,7 @@ from app.logic.exceptions.base import LogicException
 
 
 @dataclass(frozen=True, eq=False)
-class EventHandlersNotRegisteredException(LogicException):
+class EventHandlersNotRegistered(LogicException):
     event_type: type
 
     @property
@@ -13,9 +13,18 @@ class EventHandlersNotRegisteredException(LogicException):
 
 
 @dataclass(frozen=True, eq=False)
-class CommandHandlersNotRegisteredException(LogicException):
+class CommandHandlersNotRegistered(LogicException):
     command_type: type
 
     @property
     def message(self):
         return f'Could not find handler for command: {self.command_type}'
+
+
+@dataclass(frozen=True, eq=False)
+class QueryHandlerNotRegistered(LogicException):
+    query_type: type
+
+    @property
+    def message(self):
+        return f'Could not find handler for query: {self.query_type}'

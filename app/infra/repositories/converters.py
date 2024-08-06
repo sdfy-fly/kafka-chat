@@ -2,6 +2,7 @@ from typing import Mapping, Any
 
 from app.domain.entities.chat import Chat
 from app.domain.entities.messages import Message
+from app.domain.values.chat import Title
 from app.domain.values.messages import Text
 
 
@@ -33,7 +34,7 @@ def convert_message_document_to_entity(message_document: Mapping[str, Any]) -> M
 def convert_chat_document_to_entity(chat_document: Mapping[str, Any]) -> Chat:
     return Chat(
         oid=chat_document['oid'],
-        title=chat_document['title'],
+        title=Title(chat_document['title']),
         messages={
             convert_message_document_to_entity(message)
             for message in chat_document['messages']
